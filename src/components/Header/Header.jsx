@@ -6,7 +6,6 @@ import {
     Typography,
     Button,
     IconButton,
-    Card,
 } from "@material-tailwind/react";
 const Header = () => {
     const [openNav, setOpenNav] = React.useState(false);
@@ -26,8 +25,8 @@ const Header = () => {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <a href="#" className="flex items-center">
-                    Pages
+                <a href="/" className="flex items-center">
+                    Home
                 </a>
             </Typography>
             <Typography
@@ -36,28 +35,8 @@ const Header = () => {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <a href="#" className="flex items-center">
-                    Account
-                </a>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-            >
-                <a href="#" className="flex items-center">
-                    Blocks
-                </a>
-            </Typography>
-            <Typography
-                as="li"
-                variant="small"
-                color="blue-gray"
-                className="p-1 font-normal"
-            >
-                <a href="#" className="flex items-center">
-                    Docs
+                <a href="/about" className="flex items-center">
+                    About
                 </a>
             </Typography>
         </ul>

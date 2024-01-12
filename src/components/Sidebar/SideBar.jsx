@@ -87,7 +87,7 @@ const SideBar = () => {
                                 <FileBase multiple={false} name='selectedFile' type="file" onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                             </div>
                             <div className='flex justify-center items-center'>
-                                <Button type='submit' className="mt-6 bg-buttons-color text-black " fullWidth>
+                                <Button type='submit' className="mt-6 bg-buttons-color text-black font-bold" fullWidth>
                                     submit
                                 </Button>
                                 <button type='button' onClick={() => handleClear()} className='bg-blue-500 h-0 ml-2'>
