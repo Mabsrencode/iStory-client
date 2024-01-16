@@ -48,5 +48,5 @@
   "devDependencies": {
     "tailwindcss": "^3.4.1"
   },
-  "proxy": "http://localhost:4000"
+  "proxy": "http://https://istory-server.onrender.com:4000"
 }
