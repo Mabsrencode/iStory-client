@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import {
     Card,
     Input,
@@ -13,7 +13,7 @@ const SideBar = () => {
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '',
     })
-
+    const [sideBarOpenClose, setSideBarOpenClose] = useState(false)
     const dispatch = useDispatch();
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,31 +30,35 @@ const SideBar = () => {
             tags: '',
             selectedFile: '',
         });
-    }
+    };
+    const handleOpenClose = useCallback(() => {
+        setSideBarOpenClose(prevState => !prevState);
+    }, []);
+
+    useEffect(() => {
+        handleOpenClose();
+    }, [handleOpenClose]);
     return (
         <div>
-            <button
-                data-drawer-target="default-sidebar"
-                data-drawer-toggle="default-sidebar"
-                aria-controls="default-sidebar"
-                type="button"
-                className="inline-flex items-center p-2 mt-2 ms-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-            >
-                POST
-            </button>
+            <Button onClick={handleOpenClose} className={`my-6 mx-auto block 2xl:hidden`} type="button">
+                Post Something now
+            </Button>
 
             <aside
-                id="default-sidebar"
-                className="fixed bg-secondary-color z-10 top-0 left-0 z-40 w-64 sm:w-[500px] h-screen transition-transform -translate-x-full sm:translate-x-0"
-                aria-label="Sidebar"
+                id="drawer-navigation"
+                className={`fixed bg-secondary-color ${!sideBarOpenClose ? "translate-x-0" : "-translate-x-full"} z-10 top-0 w-full overflow-auto left-0 z-40 lg:max-w-[500px] xl:max-w-[500px] h-screen transition-transform  xl:translate-x-0`}
             >
+
                 <div className="h-full px-3 py-4">
                     <Card className='mt-[20%] py-4' shadow={false}>
+                        <button onClick={handleOpenClose} type="button" className={`2xl:hidden text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 absolute top-2.5 end-2.5 inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white`} >
+                            <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
+                        </button>
                         <Typography className='text-center' variant="h4" color="blue-gray">
                             Create a Memory
                         </Typography>
-                        <Typography color="gray" className="mt-1 text-center font-normal">
-                            Nice to meet you! Enter your details to register.
+                        <Typography color="gray" className="mt-1  text-center font-normal">
+                            Nice to meet you! <br /> Enter your memories details.
                         </Typography>
                         <form autoComplete='off' className="mt-8 mx-auto mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                             <div className="mb-1 flex flex-col gap-6">
@@ -87,7 +91,7 @@ const SideBar = () => {
                                 <FileBase multiple={false} name='selectedFile' type="file" onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                             </div>
                             <div className='flex justify-center items-center'>
-                                <Button type='submit' className="mt-6 bg-buttons-color text-black font-bold" fullWidth>
+                                <Button type='submit' className="mt-6 font-bold" fullWidth>
                                     submit
                                 </Button>
                                 <button type='button' onClick={() => handleClear()} className='bg-blue-500 h-0 ml-2'>
