@@ -1,5 +1,6 @@
 import React from 'react'
 import "./header.css"
+import { Link } from 'react-router-dom';
 import {
     Navbar,
     Collapse,
@@ -25,9 +26,9 @@ const Header = () => {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <a href="/" className="flex items-center">
+                <Link to="/">
                     Home
-                </a>
+                </Link>
             </Typography>
             <Typography
                 as="li"
@@ -35,9 +36,9 @@ const Header = () => {
                 color="blue-gray"
                 className="p-1 font-normal"
             >
-                <a href="/about" className="flex items-center">
+                <Link to="/about">
                     About
-                </a>
+                </Link>
             </Typography>
         </ul>
     );
