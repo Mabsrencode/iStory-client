@@ -7,7 +7,7 @@ const Posts = ({ setCurrentId }) => {
     return (
         <section className='mx-auto xl:ml-[30%] mt-[1%]'>
             {!posts.length ? (
-                <div>no post</div>
+                <div>fetching data please wait</div>
             ) : (
                 <div>
                     <ul className='flex gap-6 flex-wrap justify-center items-center'>
