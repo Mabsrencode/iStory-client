@@ -1,10 +1,10 @@
 import React from 'react'
 import "../styles/home.css"
 import Posts from '../components/Posts/Posts'
-const Home = () => {
+const Home = ({ currentId, setCurrentId }) => {
     return (
         <main>
-            <Posts />
+            <Posts currentId={currentId} setCurrentId={setCurrentId} />
         </main>
     )
 }

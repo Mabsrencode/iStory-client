@@ -1,5 +1,5 @@
 import "./App.css";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getPost } from "./actions/posts.action";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import NoPage from "./pages/NoPage";
 function App() {
+  const [currentId, setCurrentId] = useState(null);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getPost());
@@ -16,8 +17,13 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
+          <Route
+            path="/"
+            element={
+              <Layout currentId={currentId} setCurrentId={setCurrentId} />
+            }
+          >
+            <Route index element={<Home setCurrentId={setCurrentId} />} />
             <Route path="/about" element={<About />} />
             <Route path="*" element={<NoPage />} />
           </Route>

@@ -7,22 +7,32 @@ import {
     Textarea
 } from "@material-tailwind/react";
 import FileBase from "react-file-base64"
-import { useDispatch } from 'react-redux';
-import { createPost } from '../../actions/posts.action';
-const SideBar = () => {
+import { useDispatch, useSelector } from 'react-redux';
+import { createPost, updatePost, clearForm } from '../../actions/posts.action';
+const SideBar = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '',
-    })
+    });
+    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+    console.log(post)
     const [sideBarOpenClose, setSideBarOpenClose] = useState(false)
     const dispatch = useDispatch();
+    useEffect(() => {
+        if (post) setPostData(post);
+    }, [post])
     const handleSubmit = async (e) => {
         e.preventDefault();
-        dispatch(createPost(postData))
-        console.log(postData)
+        if (currentId) {
+            dispatch(updatePost(currentId, postData));
+        } else {
+            dispatch(createPost(postData))
+        }
+
     }
 
     const handleClear = () => {
         console.log("Clearing form");
+        dispatch(clearForm());
         setPostData({
             creator: '',
             title: '',

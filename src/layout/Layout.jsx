@@ -3,11 +3,11 @@ import { Outlet } from 'react-router-dom'
 import Header from '../components/Header/Header'
 import Footer from '../components/Footer/Footer'
 import SideBar from '../components/Sidebar/SideBar'
-const Layout = () => {
+const Layout = ({ currentId, setCurrentId }) => {
     return (
         <>
             <Header />
-            <SideBar />
+            <SideBar currentId={currentId} setCurrentId={setCurrentId} />
             <Outlet />
             <Footer />
         </>

@@ -9,7 +9,7 @@ import {
     IconButton,
 } from "@material-tailwind/react";
 import moment from "moment";
-const Post = ({ post }) => {
+const Post = ({ post, setCurrentId }) => {
     console.log(post)
     return (
         <Card className="w-full max-w-[26rem] shadow-lg">
@@ -29,6 +29,7 @@ const Post = ({ post }) => {
                         </Typography>
                     </div>
                     <IconButton
+                        onClick={() => setCurrentId(post._id)}
                         size="sm"
                         color="white"
                         variant="text"
@@ -60,7 +61,7 @@ const Post = ({ post }) => {
                     {post.message}
                 </Typography>
                 <ul className="group mt-8 inline-flex flex-wrap items-center gap-3">
-                    {post.tags.map((tag) => <li className='bg-gray-200 rounded-lg px-2'>
+                    {post.tags.map((tag) => <li key={tag} className='bg-gray-200 rounded-lg px-2'>
                         {`#${tag}`}
                     </li>)}
                 </ul>
