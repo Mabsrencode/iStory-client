@@ -1,5 +1,5 @@
 import axios from "axios";
-const url = "https://istory-server.onrender.com/posts";
+const url = "https://mysterious-lingerie-bass.cyclic.app/posts";
 export const fetchPosts = () => axios.get(url);
 export const createPost = (newPost) => axios.post(url, newPost);
 export const updatePost = (id, updatedPost) =>
