@@ -1,6 +1,5 @@
 import axios from "axios";
-const url =
-  "http://localhost:4000/posts" || "https://istory-server.onrender.com/posts";
+const url = "https://istory-server.onrender.com/posts";
 export const fetchPosts = () => axios.get(url);
 export const createPost = (newPost) => axios.post(url, newPost);
 export const updatePost = (id, updatedPost) =>
