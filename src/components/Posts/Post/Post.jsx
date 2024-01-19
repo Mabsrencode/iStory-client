@@ -17,7 +17,7 @@ const Post = ({ post, setCurrentId }) => {
     return (
         <Card className="w-full max-w-[26rem] shadow-lg">
             <CardHeader floated={false} color="blue-gray">
-                <img
+                <img className='max-h-[200px] w-[600px] object-cover'
                     src={post.selectedFile}
                     alt="ui/ux review check"
                 />
