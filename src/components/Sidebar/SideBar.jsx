@@ -8,7 +8,7 @@ import {
 } from "@material-tailwind/react";
 import FileBase from "react-file-base64"
 import { useDispatch, useSelector } from 'react-redux';
-import { createPost, updatePost, clearForm } from '../../actions/posts.action';
+import { createPost, updatePost } from '../../actions/posts.action';
 const SideBar = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '',
@@ -17,6 +17,10 @@ const SideBar = ({ currentId, setCurrentId }) => {
     console.log(post)
     const [sideBarOpenClose, setSideBarOpenClose] = useState(false)
     const dispatch = useDispatch();
+    const clear = () => {
+        setCurrentId(null);
+        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+    };
     useEffect(() => {
         if (post) setPostData(post);
     }, [post])
@@ -24,23 +28,15 @@ const SideBar = ({ currentId, setCurrentId }) => {
         e.preventDefault();
         if (currentId) {
             dispatch(updatePost(currentId, postData));
+            window.location.reload();
         } else {
-            dispatch(createPost(postData))
+            dispatch(createPost(postData));
+            window.location.reload();
         }
-
-    }
-
-    const handleClear = () => {
-        console.log("Clearing form");
-        dispatch(clearForm());
-        setPostData({
-            creator: '',
-            title: '',
-            message: '',
-            tags: '',
-            selectedFile: '',
-        });
+        clear();
     };
+
+
     const handleOpenClose = useCallback(() => {
         setSideBarOpenClose(prevState => !prevState);
     }, []);
@@ -65,7 +61,7 @@ const SideBar = ({ currentId, setCurrentId }) => {
                             <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
                         </button>
                         <Typography className='text-center' variant="h4" color="blue-gray">
-                            Create a Memory
+                            {currentId ? "Editing" : "Create a Memory"}
                         </Typography>
                         <Typography color="gray" className="mt-1  text-center font-normal">
                             Nice to meet you! <br /> Enter your memories details.
@@ -104,7 +100,7 @@ const SideBar = ({ currentId, setCurrentId }) => {
                                 <Button type='submit' className="mt-6 font-bold" fullWidth>
                                     submit
                                 </Button>
-                                <button type='button' onClick={() => handleClear()} className='bg-blue-500 h-0 ml-2'>
+                                <button type='button' onClick={clear} className='bg-blue-500 h-0 ml-2'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
                                     </svg>

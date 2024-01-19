@@ -1,23 +1,41 @@
-const postsReducer = (posts = [], action) => {
+const postsReducer = (state = { posts: [], isLoading: false }, action) => {
   switch (action.type) {
-    case "CLEAR_FORM":
+    case "DELETE":
       return {
-        creator: "",
-        title: "",
-        message: "",
-        tags: "",
-        selectedFile: "",
+        ...state,
+        posts: state.posts.filter((post) => post._id !== action.payload),
       };
     case "UPDATE":
-      return posts.map((post) =>
-        post._id === action.payload._id ? action.payload : post
-      );
+      return {
+        ...state,
+        posts: state.posts.map((post) =>
+          post._id === action.payload._id ? action.payload : post
+        ),
+      };
     case "FETCH_ALL":
-      return action.payload;
+      return {
+        ...state,
+        posts: action.payload,
+        isLoading: false,
+      };
     case "CREATE":
-      return [...posts, action.payload];
+      return {
+        ...state,
+        posts: [...state.posts, action.payload],
+      };
+    case "FETCH_START":
+      return {
+        ...state,
+        isLoading: true,
+      };
+    case "FETCH_FAILURE":
+      return {
+        ...state,
+        isLoading: false,
+      };
     default:
-      return posts;
+      return state;
   }
 };
+
 export default postsReducer;

@@ -12,7 +12,7 @@ function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getPost());
-  }, [dispatch]);
+  }, [currentId, dispatch]);
   return (
     <div className="App">
       <BrowserRouter>
