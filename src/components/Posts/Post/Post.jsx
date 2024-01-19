@@ -24,7 +24,7 @@ const Post = ({ post, setCurrentId }) => {
     const handleOpen = () => setOpen((cur) => !cur);
     return (
         <div>
-            <Dialog size="xl" open={open} handler={handleOpen}>
+            <Dialog size="xl" open={open} handler={handleOpen} className='dialog-card'>
                 <DialogHeader className="justify-between">
                     <div className="flex items-center gap-3">
                         <Avatar
@@ -71,9 +71,14 @@ const Post = ({ post, setCurrentId }) => {
                 <DialogBody>
                     <img
                         alt="nature"
-                        className="h-[48rem] md:w-[30%] rounded-lg object-cover object-top"
+                        className="h-[18rem] mx-auto md:h-[48rem] md:w-[30%] rounded-lg object-cover object-top"
                         src={post.selectedFile}
                     />
+                    <div>
+                        <Typography variant="small" color="gray" className="font-normal">
+                            {post.message}
+                        </Typography>
+                    </div>
                 </DialogBody>
                 <DialogFooter className="justify-between">
                     <div className="flex items-center gap-16">
@@ -88,9 +93,9 @@ const Post = ({ post, setCurrentId }) => {
                         <div>
                         </div>
                     </div>
-                    <Typography variant="small" color="gray" className="font-normal">
-                        {post.message}
-                    </Typography>
+                    <Button onClick={() => { handleOpen(false) }}>
+                        Close
+                    </Button>
                 </DialogFooter>
             </Dialog>
             <Card className="w-full max-w-[26rem] shadow-lg card">
