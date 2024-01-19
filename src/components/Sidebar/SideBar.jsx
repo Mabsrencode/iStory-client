@@ -10,6 +10,7 @@ import FileBase from "react-file-base64"
 import { useDispatch, useSelector } from 'react-redux';
 import { createPost, updatePost } from '../../actions/posts.action';
 const SideBar = ({ currentId, setCurrentId }) => {
+    const isSubmitting = useSelector((state) => state.posts.isSubmitting);
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '',
     });
@@ -21,19 +22,31 @@ const SideBar = ({ currentId, setCurrentId }) => {
     const dispatch = useDispatch();
     const clear = () => {
         setCurrentId(null);
-        setPostData({ creator: '', title: '', message: '', tags: '', selectedFile: '' });
+        setPostData((prevData) => ({
+            ...prevData,
+            creator: '',
+            title: '',
+            message: '',
+            tags: '',
+            selectedFile: '',
+        }));
     };
     useEffect(() => {
         if (post) setPostData(post);
     }, [post])
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (currentId) {
-            dispatch(updatePost(currentId, postData));
-            window.location.reload();
-        } else {
-            dispatch(createPost(postData));
-            window.location.reload();
+        try {
+            if (currentId) {
+                dispatch(updatePost(currentId, postData));
+            } else {
+                dispatch(createPost(postData));
+            }
+            setTimeout(() => {
+                window.location.reload();
+            }, 2000)
+        } catch (error) {
+            console.log(error)
         }
         clear();
     };
@@ -99,8 +112,8 @@ const SideBar = ({ currentId, setCurrentId }) => {
                                 <FileBase multiple={false} name='selectedFile' type="file" onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                             </div>
                             <div className='flex justify-center items-center'>
-                                <Button type='submit' className="mt-6 font-bold" fullWidth>
-                                    submit
+                                <Button loading={isSubmitting} type='submit' className="mt-6 font-bold flex justify-center items-center" fullWidth>
+                                    {isSubmitting ? "Processing..." : "Submit"}
                                 </Button>
                                 <button type='button' onClick={clear} className='bg-blue-500 h-0 ml-2'>
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
