@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Card,
     CardHeader,
@@ -14,11 +14,19 @@ import { deletePost, likePost } from '../../../actions/posts.action';
 const Post = ({ post, setCurrentId }) => {
     const dispatch = useDispatch();
     const isDeleting = useSelector((state) => state.posts.isDeleting.includes(post._id));
+    const [viewImage, setViewImage] = useState(false);
+    const handleViewImage = () => {
+        setViewImage(true);
+    }
+
+    const handleCloseViewImage = () => {
+        setViewImage(false);
+    }
     return (
         <Card className="w-full max-w-[26rem] shadow-lg">
             <CardHeader floated={false} color="blue-gray">
                 {/* className='max-h-[200px] w-[600px] object-cover' */}
-                <img
+                <img onClick={handleViewImage}
                     src={post.selectedFile}
                     alt="ui/ux review check"
                 />
