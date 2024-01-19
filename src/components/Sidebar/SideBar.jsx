@@ -109,6 +109,9 @@ const SideBar = ({ currentId, setCurrentId }) => {
                                     size="lg"
                                     label='Tags (coma separated)'
                                 />
+                                <Typography variant="h6" color="blue-gray" className="-mb-3">
+                                    Image
+                                </Typography>
                                 <FileBase multiple={false} name='selectedFile' type="file" onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                             </div>
                             <div className='flex justify-center items-center'>
