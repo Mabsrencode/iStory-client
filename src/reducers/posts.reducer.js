@@ -6,6 +6,7 @@ const postsReducer = (state = { posts: [], isLoading: false }, action) => {
         posts: state.posts.filter((post) => post._id !== action.payload),
       };
     case "UPDATE":
+    case "LIKE":
       return {
         ...state,
         posts: state.posts.map((post) =>

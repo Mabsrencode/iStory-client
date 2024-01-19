@@ -13,7 +13,9 @@ const SideBar = ({ currentId, setCurrentId }) => {
     const [postData, setPostData] = useState({
         creator: '', title: '', message: '', tags: '', selectedFile: '',
     });
-    const post = useSelector((state) => currentId ? state.posts.find((p) => p._id === currentId) : null);
+    const post = useSelector((state) =>
+        currentId ? state.posts.posts.find((p) => p._id === currentId) : null
+    );
     console.log(post)
     const [sideBarOpenClose, setSideBarOpenClose] = useState(false)
     const dispatch = useDispatch();
@@ -90,7 +92,7 @@ const SideBar = ({ currentId, setCurrentId }) => {
                                 <Typography variant="h6" color="blue-gray" className="-mb-3">
                                     Tags
                                 </Typography>
-                                <Input name='tags' onChange={(e) => setPostData({ ...postData, tags: e.target.value })}
+                                <Input name='tags' onChange={(e) => setPostData({ ...postData, tags: e.target.value.split(',') })}
                                     size="lg"
                                     label='Tags (coma separated)'
                                 />
