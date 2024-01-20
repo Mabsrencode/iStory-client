@@ -81,37 +81,37 @@ const Header = () => {
         >
             <form onSubmit={handleSubmit}>
                 <Card className="mx-auto w-full max-w-[24rem]">
-                    <CardBody className="flex flex-col gap-4">
+                    <CardBody className="flex flex-col gap-3">
                         <Typography variant="h4" color="blue-gray">
                             {isSignUp ? "Sign Up" : "Sign In"}
                         </Typography>
-                        <Typography
+                        {isSignUp ? <></> : <Typography
                             className="mb-3 font-normal"
                             variant="paragraph"
                             color="gray"
                         >
                             Enter your email and password to Sign In.
-                        </Typography>
+                        </Typography>}
                         {isSignUp && (<>
-                            <Typography className="-mb-2" variant="h6">
+                            <Typography className="-mb-4" variant="h6">
                                 Your First Name
                             </Typography>
                             <Input label="First Name" size="lg" onChange={handleChange} />
-                            <Typography className="-mb-2" variant="h6">
+                            <Typography className="-mb-4" variant="h6">
                                 Your Last Name
                             </Typography>
                             <Input label="Last Name" size="lg" onChange={handleChange} />
                         </>)}
-                        <Typography className="-mb-2" variant="h6">
+                        <Typography className="-mb-4" variant="h6">
                             Your Email
                         </Typography>
                         <Input label="Email" size="lg" onChange={handleChange} />
-                        <Typography className="-mb-2" variant="h6">
+                        <Typography className="-mb-4" variant="h6">
                             Your Password
                         </Typography>
                         <Input label='Password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
                         {isSignUp && (<Input type={seePassword ? "text" : "password"} label='Confirm Password' />)}
-                        <div className="-ml-2.5 -mt-3">
+                        <div className="-ml-2.5 -mt-4">
                             <Checkbox label="Remember Me" />
                         </div>
                     </CardBody>
