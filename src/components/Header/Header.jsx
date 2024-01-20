@@ -93,20 +93,20 @@ const Header = () => {
                             Enter your email and password to Sign In.
                         </Typography>}
                         {isSignUp && (<>
-                            <Typography className="-mb-4" variant="h6">
+                            <Typography className="-mb-2" variant="h6">
                                 Your First Name
                             </Typography>
                             <Input label="First Name" size="lg" onChange={handleChange} />
-                            <Typography className="-mb-4" variant="h6">
+                            <Typography className="-mb-2" variant="h6">
                                 Your Last Name
                             </Typography>
                             <Input label="Last Name" size="lg" onChange={handleChange} />
                         </>)}
-                        <Typography className="-mb-4" variant="h6">
+                        <Typography className="-mb-2" variant="h6">
                             Your Email
                         </Typography>
                         <Input label="Email" size="lg" onChange={handleChange} />
-                        <Typography className="-mb-4" variant="h6">
+                        <Typography className="-mb-2" variant="h6">
                             Your Password
                         </Typography>
                         <Input label='Password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
