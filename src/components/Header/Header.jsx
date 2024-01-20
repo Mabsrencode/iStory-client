@@ -3,6 +3,8 @@ import "./header.css"
 import { Link } from 'react-router-dom';
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import { jwtDecode } from "jwt-decode";
+import { useDispatch } from 'react-redux';
+import { useNavigate } from "react-router-dom";
 import {
     Navbar,
     Collapse,
@@ -19,11 +21,18 @@ import {
 } from "@material-tailwind/react";
 import { GoogleLogin } from '@react-oauth/google';
 const Header = () => {
+    const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [openNav, setOpenNav] = useState(false);
     const [seePassword, setSeePassword] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    useEffect(() => {
+        const token = user?.token;
+        setUser(JSON.parse(localStorage.getItem('profile')))
+    }, [])
     const handleSignUp = () => {
         setIsSignUp((prevShowPasswords) => !prevShowPasswords);
     }
@@ -36,7 +45,6 @@ const Header = () => {
     const handleSignInButton = () => {
         setIsSignUp(false);
     };
-    const user = null;
     useEffect(() => {
         window.addEventListener(
             "resize",
@@ -48,6 +56,19 @@ const Header = () => {
     }
     const handleSubmit = () => {
 
+    }
+    const googleSuccess = async (res) => {
+        const result = jwtDecode(res?.credential);
+        const token = jwtDecode(res.credential).sub;
+        try {
+            dispatch({ type: 'AUTH', data: { result, token } })
+            navigate.push('/')
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const googleError = () => {
+        console.log('Login Failed');
     }
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
@@ -135,14 +156,8 @@ const Header = () => {
                         </Typography>
                         <section className='flex justify-center mt-2'>
                             <GoogleLogin
-                                onSuccess={credentialResponse => {
-                                    // jwtDecode
-                                    const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
-                                    console.log(credentialResponseDecoded)
-                                }}
-                                onError={() => {
-                                    console.log('Login Failed');
-                                }}
+                                onSuccess={googleSuccess}
+                                onError={googleError}
                             />
                         </section>
                     </CardFooter>
@@ -167,7 +182,7 @@ const Header = () => {
                                     size="sm"
                                     variant="circular"
                                     alt="tania andrew"
-                                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+                                    src={user.result.picture}
                                 />
                                 <div className="-mt-px flex flex-col">
                                     <Typography
@@ -175,14 +190,14 @@ const Header = () => {
                                         color="blue-gray"
                                         className="font-medium"
                                     >
-                                        Tania Andrew
+                                        {user.result.name}
                                     </Typography>
                                     <Typography
                                         variant="small"
                                         color="gray"
                                         className="text-xs font-normal"
                                     >
-                                        @emmaroberts
+                                        {user.result.email}
                                     </Typography>
                                 </div>
                             </div></>) : (<>
@@ -243,7 +258,30 @@ const Header = () => {
                 </div>
                 <Collapse open={openNav}>
                     {navList}
-                    {user ? (<></>) : (<><div className="flex items-center gap-x-1">
+                    {user ? (<><div className="flex items-center gap-3">
+                        <Avatar
+                            size="sm"
+                            variant="circular"
+                            alt="tania andrew"
+                            src={user.result.picture}
+                        />
+                        <div className="-mt-px flex flex-col">
+                            <Typography
+                                variant="small"
+                                color="blue-gray"
+                                className="font-medium"
+                            >
+                                {user.result.name}
+                            </Typography>
+                            <Typography
+                                variant="small"
+                                color="gray"
+                                className="text-xs font-normal"
+                            >
+                                {user.result.email}
+                            </Typography>
+                        </div>
+                    </div></>) : (<><div className="flex items-center gap-x-1">
                         <Button onClick={() => { handleOpen(); handleSignInButton(); }} fullWidth variant="text" size="sm" className="">
                             <span>Sign in</span>
                         </Button>
