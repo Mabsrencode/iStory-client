@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import "./header.css"
 import { Link } from 'react-router-dom';
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
+import { jwtDecode } from "jwt-decode";
 import {
     Navbar,
     Collapse,
@@ -16,6 +17,7 @@ import {
     Input,
     Checkbox,
 } from "@material-tailwind/react";
+import { GoogleLogin } from '@react-oauth/google';
 const Header = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
@@ -111,9 +113,9 @@ const Header = () => {
                         </Typography>
                         <Input label='Password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
                         {isSignUp && (<Input type={seePassword ? "text" : "password"} label='Confirm Password' />)}
-                        <div className="-ml-2.5 -mt-4">
+                        {isSignUp ? <></> : <div className="-ml-2.5 -mt-4">
                             <Checkbox label="Remember Me" />
-                        </div>
+                        </div>}
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button variant="gradient" fullWidth>
@@ -131,7 +133,20 @@ const Header = () => {
                                 {isSignUp ? "Sign In" : "Sign Up"}
                             </Typography>
                         </Typography>
+                        <section className='flex justify-center mt-2'>
+                            <GoogleLogin
+                                onSuccess={credentialResponse => {
+                                    // jwtDecode
+                                    const credentialResponseDecoded = jwtDecode(credentialResponse.credential);
+                                    console.log(credentialResponseDecoded)
+                                }}
+                                onError={() => {
+                                    console.log('Login Failed');
+                                }}
+                            />
+                        </section>
                     </CardFooter>
+
                 </Card>
             </form>
         </Dialog>
