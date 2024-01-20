@@ -1,7 +1,8 @@
 import React from 'react';
 import Post from './Post/Post';
 import { useSelector } from 'react-redux';
-
+import PostSkeleton from './Post/PostSkeleton';
+import NoPostAvail from './NoPostAvail';
 const Posts = ({ setCurrentId }) => {
     const posts = useSelector((state) => state.posts.posts);
     const isLoading = useSelector((state) => state.posts.isLoading);
@@ -9,11 +10,11 @@ const Posts = ({ setCurrentId }) => {
     return (
         <section className='mx-auto xl:ml-[30%] mt-[1%]'>
             {isLoading ? (
-                <div>Loading...</div>
+                <PostSkeleton />
             ) : (
                 <>
                     {posts.length === 0 ? (
-                        <div>No posts available.</div>
+                        <NoPostAvail />
                     ) : (
                         <ul className='flex gap-6 flex-wrap justify-center items-center'>
                             {posts.map((post) => (

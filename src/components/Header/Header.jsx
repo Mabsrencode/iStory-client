@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import "./header.css"
 import { Link } from 'react-router-dom';
 import {
@@ -7,17 +7,32 @@ import {
     Typography,
     Button,
     IconButton,
+    Avatar,
+    Dialog,
+    Card,
+    CardBody,
+    CardFooter,
+    Input,
+    Checkbox,
 } from "@material-tailwind/react";
 const Header = () => {
-    const [openNav, setOpenNav] = React.useState(false);
-
-    React.useEffect(() => {
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => setOpen((cur) => !cur);
+    const [openNav, setOpenNav] = useState(false);
+    const [showPasswords, setShowPasswords] = useState(false);
+    const user = null;
+    useEffect(() => {
         window.addEventListener(
             "resize",
             () => window.innerWidth >= 960 && setOpenNav(false),
         );
     }, []);
+    const handleChange = () => {
 
+    }
+    const handleSubmit = () => {
+
+    }
     const navList = (
         <ul className="mt-2 mb-4 flex flex-col gap-2 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-6">
             <Typography
@@ -44,84 +59,162 @@ const Header = () => {
     );
     return (
 
-        <Navbar className="sticky navbar top-0 h-max max-w-full rounded-lg px-4 py-2 lg:px-8 lg:py-4">
-            <div className="flex mx-6 items-center justify-between text-blue-gray-900">
-                <Typography
-                    as="a"
-                    href="/"
-                    className="mr-4 logo text-3xl cursor-pointer py-1.5 font-medium"
-                >
-                    <span className='text-primary-accent-color'>i</span>Story
-                </Typography>
-                <div className="flex items-center gap-4">
-                    <div className="mr-4 hidden lg:block">{navList}</div>
-                    <div className="flex items-center gap-x-1">
-                        <Button
-                            variant="text"
-                            size="sm"
-                            className="hidden lg:inline-block"
+        <> <Dialog
+            size="xs"
+            open={open}
+            handler={handleOpen}
+            className="bg-transparent shadow-none"
+        >
+            <form onSubmit={handleSubmit}>
+                <Card className="mx-auto w-full max-w-[24rem]">
+                    <CardBody className="flex flex-col gap-4">
+                        <Typography variant="h4" color="blue-gray">
+                            Sign In
+                        </Typography>
+                        <Typography
+                            className="mb-3 font-normal"
+                            variant="paragraph"
+                            color="gray"
                         >
-                            <span>Log In</span>
+                            Enter your email and password to Sign In.
+                        </Typography>
+                        <Typography className="-mb-2" variant="h6">
+                            Your Email
+                        </Typography>
+                        <Input label="Email" size="lg" onChange={handleChange} />
+                        <Typography className="-mb-2" variant="h6">
+                            Your Password
+                        </Typography>
+                        <Input label="Password" size="lg" onChange={handleChange} />
+                        <div className="-ml-2.5 -mt-3">
+                            <Checkbox label="Remember Me" />
+                        </div>
+                    </CardBody>
+                    <CardFooter className="pt-0">
+                        <Button variant="gradient" fullWidth>
+                            Sign In
                         </Button>
-                        <Button
-                            variant="gradient"
-                            size="sm"
-                            className="hidden lg:inline-block"
+                        <Typography variant="small" className="mt-4 flex justify-center">
+                            Don&apos;t have an account?
+                            <Typography
+                                as="a"
+                                href="#signup"
+                                variant="small"
+                                color="blue-gray"
+                                className="ml-1 font-bold"
+
+                            >
+                                Sign up
+                            </Typography>
+                        </Typography>
+                    </CardFooter>
+                </Card>
+            </form>
+        </Dialog>
+            {/* split */}
+            <Navbar className="sticky navbar top-0 h-max max-w-full rounded-lg px-4 py-2 lg:px-8 lg:py-4">
+                <div className="flex mx-6 items-center justify-between text-blue-gray-900">
+                    <Typography
+                        className="mr-4 logo text-3xl cursor-pointer py-1.5 font-medium"
+                    >
+                        <Link to="/">
+                            <span className='text-primary-accent-color'>i</span>Story</Link>
+                    </Typography>
+                    <div className="flex items-center gap-4">
+                        <div className="mr-4 hidden lg:block">{navList}</div>
+                        <div className="flex items-center gap-x-1">
+                            {user ? (<><div className="flex items-center gap-3">
+                                <Avatar
+                                    size="sm"
+                                    variant="circular"
+                                    alt="tania andrew"
+                                    src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1480&q=80"
+                                />
+                                <div className="-mt-px flex flex-col">
+                                    <Typography
+                                        variant="small"
+                                        color="blue-gray"
+                                        className="font-medium"
+                                    >
+                                        Tania Andrew
+                                    </Typography>
+                                    <Typography
+                                        variant="small"
+                                        color="gray"
+                                        className="text-xs font-normal"
+                                    >
+                                        @emmaroberts
+                                    </Typography>
+                                </div>
+                            </div></>) : (<>
+                                <Button onClick={handleOpen}
+                                    variant="text"
+                                    size="sm"
+                                    className="hidden lg:inline-block"
+                                >
+                                    <span>Sign In</span>
+                                </Button>
+                                <Button
+                                    variant="gradient"
+                                    size="sm"
+                                    className="hidden lg:inline-block"
+                                >
+                                    <span>Sign up</span>
+                                </Button>
+                            </>)}
+                        </div>
+                        <IconButton
+                            variant="text"
+                            className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
+                            ripple={false}
+                            onClick={() => setOpenNav(!openNav)}
                         >
+                            {openNav ? (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    className="h-6 w-6"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </svg>
+                            ) : (
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-6 w-6"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    strokeWidth={2}
+                                >
+                                    <path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M4 6h16M4 12h16M4 18h16"
+                                    />
+                                </svg>
+                            )}
+                        </IconButton>
+                    </div>
+                </div>
+                <Collapse open={openNav}>
+                    {navList}
+                    {user ? (<></>) : (<><div className="flex items-center gap-x-1">
+                        <Button onClick={handleOpen} fullWidth variant="text" size="sm" className="">
                             <span>Sign in</span>
                         </Button>
-                    </div>
-                    <IconButton
-                        variant="text"
-                        className="ml-auto h-6 w-6 text-inherit hover:bg-transparent focus:bg-transparent active:bg-transparent lg:hidden"
-                        ripple={false}
-                        onClick={() => setOpenNav(!openNav)}
-                    >
-                        {openNav ? (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                className="h-6 w-6"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </svg>
-                        ) : (
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth={2}
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M4 6h16M4 12h16M4 18h16"
-                                />
-                            </svg>
-                        )}
-                    </IconButton>
-                </div>
-            </div>
-            <Collapse open={openNav}>
-                {navList}
-                <div className="flex items-center gap-x-1">
-                    <Button fullWidth variant="text" size="sm" className="">
-                        <span>Log In</span>
-                    </Button>
-                    <Button fullWidth variant="gradient" size="sm" className="">
-                        <span>Sign in</span>
-                    </Button>
-                </div>
-            </Collapse >
-        </Navbar>
+                        <Button fullWidth variant="gradient" size="sm" className="">
+                            <span>Sign up</span>
+                        </Button>
+                    </div></>)}
+                </Collapse >
+            </Navbar>
+        </>
     )
 }
 

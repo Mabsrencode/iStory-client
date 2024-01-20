@@ -2,7 +2,7 @@ import React from 'react'
 
 const About = () => {
     return (
-        <div>About</div>
+        <main className='mx-auto xl:ml-[30%] mt-[1%]'>About</main>
     )
 }
 
