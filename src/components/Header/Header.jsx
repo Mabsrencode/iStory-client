@@ -28,6 +28,12 @@ const Header = () => {
     const handleSeePassword = () => {
         setSeePassword((prevShowPasswords) => !prevShowPasswords);
     }
+    const handleSignUpButton = () => {
+        setIsSignUp(true);
+    };
+    const handleSignInButton = () => {
+        setIsSignUp(false);
+    };
     const user = null;
     useEffect(() => {
         window.addEventListener(
@@ -165,14 +171,14 @@ const Header = () => {
                                     </Typography>
                                 </div>
                             </div></>) : (<>
-                                <Button onClick={handleOpen}
+                                <Button onClick={() => { handleOpen(); handleSignInButton(); }}
                                     variant="text"
                                     size="sm"
                                     className="hidden lg:inline-block"
                                 >
                                     <span>Sign In</span>
                                 </Button>
-                                <Button onClick={() => { handleOpen(); handleSignUp(true); }}
+                                <Button onClick={() => { handleOpen(); handleSignUpButton(); }}
                                     variant="gradient"
                                     size="sm"
                                     className="hidden lg:inline-block"
@@ -223,10 +229,10 @@ const Header = () => {
                 <Collapse open={openNav}>
                     {navList}
                     {user ? (<></>) : (<><div className="flex items-center gap-x-1">
-                        <Button onClick={handleOpen} fullWidth variant="text" size="sm" className="">
+                        <Button onClick={() => { handleOpen(); handleSignInButton(); }} fullWidth variant="text" size="sm" className="">
                             <span>Sign in</span>
                         </Button>
-                        <Button onClick={() => { handleOpen(); handleSignUp(setIsSignUp(true)); }} fullWidth variant="gradient" size="sm" className="">
+                        <Button onClick={() => { handleOpen(); handleSignUpButton(); }} fullWidth variant="gradient" size="sm" className="">
                             <span>Sign up</span>
                         </Button>
                     </div></>)}
