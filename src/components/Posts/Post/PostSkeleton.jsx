@@ -6,7 +6,7 @@ const PostSkeleton = () => {
         <div className="flex flex-wrap justify-center items-center gap-5 rounded-lg">
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">
@@ -19,7 +19,7 @@ const PostSkeleton = () => {
             </Card>
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">
@@ -32,7 +32,7 @@ const PostSkeleton = () => {
             </Card>
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">
@@ -45,7 +45,7 @@ const PostSkeleton = () => {
             </Card>
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">
@@ -58,7 +58,7 @@ const PostSkeleton = () => {
             </Card>
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">
@@ -71,7 +71,7 @@ const PostSkeleton = () => {
             </Card>
             <Card className="card mt-6 w-96 mx-4">
                 <CardHeader color="blue-gray" className="relative h-36 mt-4 image-card animate-pulse">
-
+                    <div></div>
                 </CardHeader>
                 <CardBody>
                     <Typography variant="h5" color="white" className="mb-2">

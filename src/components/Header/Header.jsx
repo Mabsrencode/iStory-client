@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./header.css"
 import { Link } from 'react-router-dom';
+import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import {
     Navbar,
     Collapse,
@@ -19,7 +20,14 @@ const Header = () => {
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen((cur) => !cur);
     const [openNav, setOpenNav] = useState(false);
-    const [showPasswords, setShowPasswords] = useState(false);
+    const [seePassword, setSeePassword] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(false);
+    const handleSignUp = () => {
+        setIsSignUp((prevShowPasswords) => !prevShowPasswords);
+    }
+    const handleSeePassword = () => {
+        setSeePassword((prevShowPasswords) => !prevShowPasswords);
+    }
     const user = null;
     useEffect(() => {
         window.addEventListener(
@@ -69,7 +77,7 @@ const Header = () => {
                 <Card className="mx-auto w-full max-w-[24rem]">
                     <CardBody className="flex flex-col gap-4">
                         <Typography variant="h4" color="blue-gray">
-                            Sign In
+                            {isSignUp ? "Sign Up" : "Sign In"}
                         </Typography>
                         <Typography
                             className="mb-3 font-normal"
@@ -78,6 +86,16 @@ const Header = () => {
                         >
                             Enter your email and password to Sign In.
                         </Typography>
+                        {isSignUp && (<>
+                            <Typography className="-mb-2" variant="h6">
+                                Your First Name
+                            </Typography>
+                            <Input label="First Name" size="lg" onChange={handleChange} />
+                            <Typography className="-mb-2" variant="h6">
+                                Your Last Name
+                            </Typography>
+                            <Input label="Last Name" size="lg" onChange={handleChange} />
+                        </>)}
                         <Typography className="-mb-2" variant="h6">
                             Your Email
                         </Typography>
@@ -85,26 +103,26 @@ const Header = () => {
                         <Typography className="-mb-2" variant="h6">
                             Your Password
                         </Typography>
-                        <Input label="Password" size="lg" onChange={handleChange} />
+                        <Input label='Password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
+                        {isSignUp && (<Input type={seePassword ? "text" : "password"} label='Confirm Password' />)}
                         <div className="-ml-2.5 -mt-3">
                             <Checkbox label="Remember Me" />
                         </div>
                     </CardBody>
                     <CardFooter className="pt-0">
                         <Button variant="gradient" fullWidth>
-                            Sign In
+                            {isSignUp ? "Sign Up" : "Sign In"}
                         </Button>
                         <Typography variant="small" className="mt-4 flex justify-center">
-                            Don&apos;t have an account?
+                            {isSignUp ? "Already have an account?" : " Don't have an account?"}
                             <Typography
-                                as="a"
-                                href="#signup"
+                                onClick={handleSignUp}
                                 variant="small"
                                 color="blue-gray"
-                                className="ml-1 font-bold"
+                                className="ml-1 font-bold cursor-pointer"
 
                             >
-                                Sign up
+                                {isSignUp ? "Sign In" : "Sign Up"}
                             </Typography>
                         </Typography>
                     </CardFooter>
@@ -154,7 +172,7 @@ const Header = () => {
                                 >
                                     <span>Sign In</span>
                                 </Button>
-                                <Button
+                                <Button onClick={() => { handleOpen(); handleSignUp(true); }}
                                     variant="gradient"
                                     size="sm"
                                     className="hidden lg:inline-block"
@@ -208,7 +226,7 @@ const Header = () => {
                         <Button onClick={handleOpen} fullWidth variant="text" size="sm" className="">
                             <span>Sign in</span>
                         </Button>
-                        <Button fullWidth variant="gradient" size="sm" className="">
+                        <Button onClick={() => { handleOpen(); handleSignUp(setIsSignUp(true)); }} fullWidth variant="gradient" size="sm" className="">
                             <span>Sign up</span>
                         </Button>
                     </div></>)}
