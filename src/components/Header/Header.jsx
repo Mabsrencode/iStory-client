@@ -182,7 +182,7 @@ const Header = () => {
                     <div className="flex items-center gap-4">
                         <div className="mr-4 hidden lg:block">{navList}</div>
                         <div className="flex items-center gap-x-1">
-                            {user ? (<><div className="flex items-center gap-3">
+                            {user ? (<><div className="hidden sm:flex items-center gap-3">
                                 <Avatar
                                     size="sm"
                                     variant="circular"
@@ -266,28 +266,33 @@ const Header = () => {
                 </div>
                 <Collapse open={openNav}>
                     {navList}
-                    {user ? (<><div className="flex items-center gap-3">
-                        <Avatar
-                            size="sm"
-                            variant="circular"
-                            alt="tania andrew"
-                            src={user.result.picture}
-                        />
-                        <div className="-mt-px flex flex-col">
-                            <Typography
-                                variant="small"
-                                color="blue-gray"
-                                className="font-medium"
-                            >
-                                {user.result.name}
-                            </Typography>
-                            <Typography
-                                variant="small"
-                                color="gray"
-                                className="text-xs font-normal"
-                            >
-                                {user.result.email}
-                            </Typography>
+                    {user ? (<><div className="flex items-center justify-between gap-3">
+                        <div className='flex items-center gap-3'>
+                            <Avatar
+                                size="sm"
+                                variant="circular"
+                                alt="tania andrew"
+                                src={user.result.picture}
+                            />
+                            <div className="-mt-px flex flex-col">
+                                <Typography
+                                    variant="small"
+                                    color="blue-gray"
+                                    className="font-medium"
+                                >
+                                    {user.result.name}
+                                </Typography>
+                                <Typography
+                                    variant="small"
+                                    color="gray"
+                                    className="text-xs font-normal"
+                                >
+                                    {user.result.email}
+                                </Typography>
+                            </div>
+                        </div>
+                        <div>
+                            <Button size='sm' onClick={handleLogOut}>Log Out</Button>
                         </div>
                     </div></>) : (<><div className="flex items-center gap-x-1">
                         <Button onClick={() => { handleOpen(); handleSignInButton(); }} fullWidth variant="text" size="sm" className="">
