@@ -20,6 +20,8 @@ import {
     Checkbox,
 } from "@material-tailwind/react";
 import { GoogleLogin } from '@react-oauth/google';
+import { signup, signin } from '../../actions/auth';
+const initialState = { firstName: "", lastName: "", email: "", password: "", cpassword: "" };
 const Header = () => {
     const [user, setUser] = useState(JSON.parse(localStorage.getItem('profile')));
     const [open, setOpen] = useState(false);
@@ -27,12 +29,13 @@ const Header = () => {
     const [openNav, setOpenNav] = useState(false);
     const [seePassword, setSeePassword] = useState(false);
     const [isSignUp, setIsSignUp] = useState(false);
+    const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const token = user?.token;
     useEffect(() => {
         setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [token])
+    }, [navigate, token])
     const handleSignUp = () => {
         setIsSignUp((prevShowPasswords) => !prevShowPasswords);
     }
@@ -56,18 +59,24 @@ const Header = () => {
             () => window.innerWidth >= 960 && setOpenNav(false),
         );
     }, []);
-    const handleChange = () => {
-
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (isSignUp) {
+            dispatch(signup(formData, navigate))
+        }
+        else {
+            dispatch(signin(formData, navigate))
+        }
     }
-    const handleSubmit = () => {
-
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const googleSuccess = async (res) => {
         const result = jwtDecode(res?.credential);
         const token = jwtDecode(res.credential).sub;
         try {
             dispatch({ type: 'AUTH', data: { result, token } })
-            navigate.push('/')
+            navigate('/')
         } catch (error) {
             console.log(error)
         }
@@ -124,27 +133,27 @@ const Header = () => {
                             <Typography className="-mb-2" variant="h6">
                                 Your First Name
                             </Typography>
-                            <Input label="First Name" size="lg" onChange={handleChange} />
+                            <Input label="First Name" name='firstName' size="lg" onChange={handleChange} />
                             <Typography className="-mb-2" variant="h6">
                                 Your Last Name
                             </Typography>
-                            <Input label="Last Name" size="lg" onChange={handleChange} />
+                            <Input label="Last Name" name='lastName' size="lg" onChange={handleChange} />
                         </>)}
                         <Typography className="-mb-2" variant="h6">
                             Your Email
                         </Typography>
-                        <Input label="Email" size="lg" onChange={handleChange} />
+                        <Input label="Email" name='email' size="lg" onChange={handleChange} />
                         <Typography className="-mb-2" variant="h6">
                             Your Password
                         </Typography>
-                        <Input label='Password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
-                        {isSignUp && (<Input type={seePassword ? "text" : "password"} label='Confirm Password' />)}
+                        <Input label='Password' name='password' type={seePassword ? "text" : "password"} icon={seePassword ? <FaRegEye onClick={handleSeePassword} className='cursor-pointer' /> : <FaRegEyeSlash onClick={handleSeePassword} className='cursor-pointer' />} id="password" onChange={handleChange} className="registration_input pl-6" maxLength={24} />
+                        {isSignUp && (<Input name='cpassword' type={seePassword ? "text" : "password"} onChange={handleChange} label='Confirm Password' />)}
                         {isSignUp ? <></> : <div className="-ml-2.5 -mt-4">
                             <Checkbox label="Remember Me" />
                         </div>}
                     </CardBody>
                     <CardFooter className="pt-0">
-                        <Button variant="gradient" fullWidth>
+                        <Button type='submit' variant="gradient" fullWidth>
                             {isSignUp ? "Sign Up" : "Sign In"}
                         </Button>
                         <Typography variant="small" className="mt-4 flex justify-center">
@@ -182,6 +191,12 @@ const Header = () => {
                     <div className="flex items-center gap-4">
                         <div className="mr-4 hidden lg:block">{navList}</div>
                         <div className="flex items-center gap-x-1">
+                            {user && <>{openNav === false && <Avatar
+                                size="sm"
+                                variant="circular"
+                                alt="tania andrew" className='sm:hidden'
+                                src={user.result.picture}
+                            />}</>}
                             {user ? (<><div className="hidden sm:flex items-center gap-3">
                                 <Avatar
                                     size="sm"
