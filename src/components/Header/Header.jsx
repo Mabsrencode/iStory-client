@@ -32,7 +32,8 @@ const Header = () => {
     useEffect(() => {
         const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [])
+        console.log(token)
+    }, [user?.token])
     const handleSignUp = () => {
         setIsSignUp((prevShowPasswords) => !prevShowPasswords);
     }
@@ -45,6 +46,11 @@ const Header = () => {
     const handleSignInButton = () => {
         setIsSignUp(false);
     };
+    const handleLogOut = () => {
+        dispatch({ type: 'LOGOUT' })
+        navigate("/");
+        setUser(null);
+    }
     useEffect(() => {
         window.addEventListener(
             "resize",
@@ -199,6 +205,9 @@ const Header = () => {
                                     >
                                         {user.result.email}
                                     </Typography>
+                                </div>
+                                <div>
+                                    <Button onClick={handleLogOut}>Log Out</Button>
                                 </div>
                             </div></>) : (<>
                                 <Button onClick={() => { handleOpen(); handleSignInButton(); }}
