@@ -29,11 +29,10 @@ const Header = () => {
     const [isSignUp, setIsSignUp] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const token = user?.token;
     useEffect(() => {
-        const token = user?.token;
         setUser(JSON.parse(localStorage.getItem('profile')))
-        console.log(token)
-    }, [user?.token])
+    }, [token])
     const handleSignUp = () => {
         setIsSignUp((prevShowPasswords) => !prevShowPasswords);
     }
@@ -207,7 +206,7 @@ const Header = () => {
                                     </Typography>
                                 </div>
                                 <div>
-                                    <Button onClick={handleLogOut}>Log Out</Button>
+                                    <Button size='sm' onClick={handleLogOut}>Log Out</Button>
                                 </div>
                             </div></>) : (<>
                                 <Button onClick={() => { handleOpen(); handleSignInButton(); }}
