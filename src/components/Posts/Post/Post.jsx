@@ -41,7 +41,7 @@ const Post = ({ post, setCurrentId }) => {
         if (likes.length > 0) {
             return likes.find((like) => like === userId)
                 ? (
-                    <><IconButton
+                    <><IconButton disabled={!user?.result}
                         size="sm"
                         color="red"
                         variant="text"
@@ -52,7 +52,7 @@ const Post = ({ post, setCurrentId }) => {
                         </svg>
                     </IconButton>&nbsp;{likes.length > 2 ? `You and ${likes.length - 1} others` : `${likes.length} like${likes.length > 1 ? 's' : ''}`}</>
                 ) : (
-                    <><IconButton
+                    <><IconButton disabled={!user?.result}
                         size="sm"
                         color="red"
                         variant="text"
@@ -65,7 +65,7 @@ const Post = ({ post, setCurrentId }) => {
                 );
         }
 
-        return <><IconButton
+        return <><IconButton disabled={!user?.result}
             size="sm"
             color="red"
             variant="text"
@@ -93,15 +93,15 @@ const Post = ({ post, setCurrentId }) => {
                                 color="blue-gray"
                                 className="font-medium"
                             >
-                                {user?.result?.name}
+                                {post.name}
                             </Typography>
-                            <Typography
+                            {/* <Typography
                                 variant="small"
                                 color="gray"
                                 className="text-xs font-normal"
                             >
-                                {user?.result?.email}
-                            </Typography>
+                                {post.email}
+                            </Typography> */}
                         </div>
                     </div>
                     <div className="flex items-center gap-2">
@@ -185,9 +185,9 @@ const Post = ({ post, setCurrentId }) => {
                         </Typography>
                         <div className='flex items-center justify-between items-center'
                         >
-                            <button disabled={!user?.result} onClick={handleLike}>
+                            <div onClick={handleLike}>
                                 <Likes />
-                            </button>
+                            </div>
                         </div>
                     </div>
                     <Typography color="gray">

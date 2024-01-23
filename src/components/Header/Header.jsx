@@ -79,6 +79,7 @@ const Header = () => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     }
     const googleSuccess = async (res) => {
+        console.log(res)
         const result = jwtDecode(res?.credential);
         console.log(result)
         const token = jwtDecode(res.credential).sub;
