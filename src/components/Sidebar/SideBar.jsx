@@ -61,8 +61,14 @@ const SideBar = ({ currentId, setCurrentId }) => {
                 Post Something now
             </Button>
 
-            {!user?.result?.name ? <aside ><Typography>
-                Sign In now to Post Memories with your friends or love one's.</Typography></aside> : <aside
+            {!user?.result?.name ? <aside className="fixed bg-secondary-color  z-10 top-0 w-full overflow-auto left-0 z-40 lg:max-w-[500px] xl:max-w-[500px] h-screen transition-transform  xl:translate-x-0 ">
+                <div className='bg-white max-w-[400px] text-center mx-[2%] sm:mx-auto mt-[50%] p-4 rounded-lg'>
+                    <Typography variant='h2' >
+                        Sign In now
+                    </Typography>
+                    <Typography>
+                        Post Memories with your friends or love one's.</Typography>
+                </div></aside> : <aside
                     id="drawer-navigation"
                     className={`fixed bg-secondary-color ${!sideBarOpenClose ? "translate-x-0" : "-translate-x-full"} z-10 top-0 w-full overflow-auto left-0 z-40 lg:max-w-[500px] xl:max-w-[500px] h-screen transition-transform  xl:translate-x-0`}
                 >
@@ -118,8 +124,9 @@ const SideBar = ({ currentId, setCurrentId }) => {
                         </form>
                     </Card>
                 </div>
-            </aside>}
-        </div>
+            </aside>
+            }
+        </div >
     )
 }
 

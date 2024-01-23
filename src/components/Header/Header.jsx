@@ -32,10 +32,16 @@ const Header = () => {
     const [formData, setFormData] = useState(initialState);
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const token = user?.token;
+
     useEffect(() => {
+        const token = user?.token;
+        if (token) {
+            const decodedToken = jwtDecode(token);
+            if (decodedToken.exp * 1000 < new Date().getTime()) handleLogOut();
+        }
         setUser(JSON.parse(localStorage.getItem('profile')))
-    }, [navigate, token])
+        // eslint-disable-next-line
+    }, [navigate])
     const handleSignUp = () => {
         setIsSignUp((prevShowPasswords) => !prevShowPasswords);
     }
