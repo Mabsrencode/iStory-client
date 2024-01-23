@@ -10,13 +10,13 @@ export const getPost = () => async (dispatch) => {
   }
 };
 
-export const createPost = (post) => async (dispatch) => {
+export const createPost = (currentId, post) => async (dispatch) => {
   try {
     dispatch({ type: "CREATE_START" });
-    const { data } = await api.createPost(post);
+    const { data } = await api.createPost(currentId, post);
     dispatch({ type: "CREATE", payload: data });
   } catch (error) {
-    dispatch({ type: "CRATE_FAILURE" });
+    dispatch({ type: "CREATE_FAILURE" });
     console.log(error);
   }
 };

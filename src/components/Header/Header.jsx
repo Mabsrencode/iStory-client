@@ -50,6 +50,7 @@ const Header = () => {
     };
     const handleLogOut = () => {
         dispatch({ type: 'LOGOUT' })
+        window.location.reload();
         navigate("/");
         setUser(null);
     }
@@ -73,6 +74,7 @@ const Header = () => {
     }
     const googleSuccess = async (res) => {
         const result = jwtDecode(res?.credential);
+        console.log(result)
         const token = jwtDecode(res.credential).sub;
         try {
             dispatch({ type: 'AUTH', data: { result, token } })
@@ -114,7 +116,7 @@ const Header = () => {
             size="xs"
             open={open}
             handler={handleOpen}
-            className="bg-transparent shadow-none"
+            className="bg-transparent shadow-none my-0"
         >
             <form onSubmit={handleSubmit}>
                 <Card className="mx-auto w-full max-w-[24rem]">

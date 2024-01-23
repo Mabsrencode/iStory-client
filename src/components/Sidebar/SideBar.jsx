@@ -12,19 +12,18 @@ import { createPost, updatePost } from '../../actions/posts.action';
 const SideBar = ({ currentId, setCurrentId }) => {
     const isSubmitting = useSelector((state) => state.posts.isSubmitting);
     const [postData, setPostData] = useState({
-        creator: '', title: '', message: '', tags: '', selectedFile: '',
+        title: '', message: '', tags: '', selectedFile: '',
     });
     const post = useSelector((state) =>
         currentId ? state.posts.posts.find((p) => p._id === currentId) : null
     );
-    console.log(post)
-    const [sideBarOpenClose, setSideBarOpenClose] = useState(false)
+    const [sideBarOpenClose, setSideBarOpenClose] = useState(true)
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
     const clear = () => {
         setCurrentId(null);
         setPostData((prevData) => ({
             ...prevData,
-            creator: '',
             title: '',
             message: '',
             tags: '',
@@ -38,15 +37,12 @@ const SideBar = ({ currentId, setCurrentId }) => {
         e.preventDefault();
         try {
             if (currentId) {
-                dispatch(updatePost(currentId, postData));
+                dispatch(updatePost(currentId, { ...postData, name: user?.result?.name }));
             } else {
-                dispatch(createPost(postData));
+                dispatch(createPost(currentId, { ...postData, name: user?.result?.name }));
             }
-            setTimeout(() => {
-                window.location.reload();
-            }, 2000)
         } catch (error) {
-            console.log(error)
+            console.log(error);
         }
         clear();
     };
@@ -61,14 +57,15 @@ const SideBar = ({ currentId, setCurrentId }) => {
     }, [handleOpenClose]);
     return (
         <div>
-            <Button onClick={handleOpenClose} className={`my-6 mx-auto block 2xl:hidden`} type="button">
+            <Button onClick={handleOpenClose} className={`my-6 ${!user?.result?.name ? "hidden" : 'block'} mx-auto 2xl:hidden`} type="button">
                 Post Something now
             </Button>
 
-            <aside
-                id="drawer-navigation"
-                className={`fixed bg-secondary-color ${!sideBarOpenClose ? "translate-x-0" : "-translate-x-full"} z-10 top-0 w-full overflow-auto left-0 z-40 lg:max-w-[500px] xl:max-w-[500px] h-screen transition-transform  xl:translate-x-0`}
-            >
+            {!user?.result?.name ? <aside ><Typography>
+                Sign In now to Post Memories with your friends or love one's.</Typography></aside> : <aside
+                    id="drawer-navigation"
+                    className={`fixed bg-secondary-color ${!sideBarOpenClose ? "translate-x-0" : "-translate-x-full"} z-10 top-0 w-full overflow-auto left-0 z-40 lg:max-w-[500px] xl:max-w-[500px] h-screen transition-transform  xl:translate-x-0`}
+                >
 
                 <div className="h-full px-3 py-4">
                     <Card className='mt-[20%] py-4' shadow={false}>
@@ -83,12 +80,6 @@ const SideBar = ({ currentId, setCurrentId }) => {
                         </Typography>
                         <form autoComplete='off' className="mt-8 mx-auto mb-2 w-80 max-w-screen-lg sm:w-96" onSubmit={handleSubmit}>
                             <div className="mb-1 flex flex-col gap-6">
-                                <Typography variant="h6" color="blue-gray" className="-mb-3">
-                                    Creator
-                                </Typography>
-                                <Input name='creator' onChange={(e) => setPostData({ ...postData, creator: e.target.value })} label='Creator Name'
-                                    size="lg"
-                                />
                                 <Typography variant="h6" color="blue-gray" className="-mb-3">
                                     Title
                                 </Typography>
@@ -115,7 +106,7 @@ const SideBar = ({ currentId, setCurrentId }) => {
                                 <FileBase multiple={false} name='selectedFile' type="file" onDone={({ base64 }) => setPostData({ ...postData, selectedFile: base64 })} />
                             </div>
                             <div className='flex justify-center items-center'>
-                                <Button loading={isSubmitting} type='submit' className="mt-6 font-bold flex justify-center items-center" fullWidth>
+                                <Button disabled={!user?.result?.name ? true : false} loading={isSubmitting} type='submit' className="mt-6 font-bold flex justify-center items-center" fullWidth>
                                     {isSubmitting ? "Processing..." : "Submit"}
                                 </Button>
                                 <button type='button' onClick={clear} className='bg-blue-500 h-0 ml-2'>
@@ -127,7 +118,7 @@ const SideBar = ({ currentId, setCurrentId }) => {
                         </form>
                     </Card>
                 </div>
-            </aside>
+            </aside>}
         </div>
     )
 }

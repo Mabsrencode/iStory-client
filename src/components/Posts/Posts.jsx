@@ -14,7 +14,9 @@ const Posts = ({ setCurrentId }) => {
             ) : (
                 <>
                     {posts.length === 0 ? (
-                        <NoPostAvail />
+                        <section className='mx-2'>
+                            <NoPostAvail />
+                        </section>
                     ) : (
                         <ul className='flex gap-6 flex-wrap justify-center items-center'>
                             {posts.map((post) => (
